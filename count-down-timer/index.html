@@ -1,28 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Countdown Timer</h1>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <div class="countdown" id="countdown">
-            <span id="days">00</span> Days
-            <span id="hours">00</span> Hours
-            <span id="minutes">00</span> Minutes
-            <span id="seconds">00</span> Seconds
-        </div>
+        <meta name="description" content="A modern and simple countdown timer." />
 
-        <div class="input-container">
-            <input type="number" name="" placeholder="Hours" id="inputHours" min="0">
-            <input type="number" name="" placeholder="Minutes" id="inputMinutes" min="0" max="59">
-            <input type="number" name="" placeholder="Seconds" id="inputSeconds" min="0" max="59">
-        </div>
-        <button id="startButton">Start</button>
-    </div>
-</body>
+        <title>Countdown Timer</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <main class="container">
+            <!-- Header -->
+            <header class="header">
+
+                <h1>Countdown Timer</h1>
+
+                <p>Set a duration and start the countdown.</p>
+            </header>
+
+            <!-- Timer Display -->
+            <section class="countdown" id="countdown" aria-label="Countdown timer">
+                <div class="time">
+                    <span id="days">00</span>
+                    <small>Days</small>
+                </div>
+
+                <div class="time">
+                    <span id="hours">00</span>
+                    <small>Hours</small>
+                </div>
+
+                <div class="time">
+                    <span id="minutes">00</span>
+                    <small>Minutes</small>
+                </div>
+
+                <div class="time">
+                    <span id="seconds">00</span>
+                    <small>Seconds</small>
+                </div>
+            </section>
+
+            <!-- Timer Controls -->
+            <section class="controls">
+                <div class="input-container">
+                    <label>
+                        <span>Hours</span>
+
+                        <input type="number" id="inputHours" min="0" max="99" placeholder="00" inputmode="numeric" autocomplete="off" />
+                    </label>
+
+                    <label>
+                        <span>Minutes</span>
+
+                        <input type="number" id="inputMinutes" min="0" max="59" placeholder="00" inputmode="numeric" autocomplete="off" />
+                    </label>
+
+                    <label>
+                        <span>Seconds</span>
+
+                        <input type="number" id="inputSeconds" min="0" max="59" placeholder="00" inputmode="numeric" autocomplete="off" />
+                    </label>
+                </div>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <button type="button" id="startButton">
+                        <span>Start Timer</span>
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <script src="script.js"></script>
+    </body>
 </html>

@@ -1,122 +1,109 @@
-const calculator = {
-    displayValue: "0",
-    firstOperand: null,
-    waitingForSecondOperand: false,
-    operator: null,
-};
 
-function updateDisplay() {
-    const display = document.querySelector(".tampilan-kalkulator");
-    display.value = calculator.displayValue;
-}
+const display = document.querySelector(".tampilan-kalkulator");
+const buttons = document.querySelectorAll("button");
 
-function inputDigit(digit) {
-    const { displayValue, waitingForSecondOperand } = calculator;
+let expression = "";
+let resultShown = false;
 
-    if (waitingForSecondOperand === true) {
-        calculator.displayValue = digit;
-        calculator.waitingForSecondOperand = false;
-    } else {
-        calculator.displayValue = displayValue === "0" ? digit : displayValue + digit;
-    }
-    updateDisplay();
-}
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        const value = button.value;
 
-function inputDecimal(dot) {
-    if (!calculator.displayValue.includes(dot)) {
-        calculator.displayValue += dot;
-    }
-}
+        // =========================
+        // AC
+        // =========================
+        if (value === "AC") {
+            expression = "";
+            display.value = "0";
+            resultShown = false;
+            return;
+        }
 
-function handleOperator(nextOperator) {
-    const { firstOperand, displayValue, operator } = calculator;
-    const inputValue = parseFloat(displayValue);
+        // =========================
+        // SAMA DENGAN
+        // =========================
+        if (value === "=") {
+            if (expression === "") return;
 
-    if (operator && calculator.waitingForSecondOperand) {
-        calculator.operator = nextOperator;
-        return;
-    }
+            try {
+                const calculation = expression
+                    .replace(/×/g, "*")
+                    .replace(/÷/g, "/")
+                    .replace(/−/g, "-");
 
-    if (firstOperand === null && !isNaN(inputValue)) {
-        calculator.firstOperand = inputValue;
-    } else if (operator) {
-        const result = calculate(firstOperand, inputValue, operator);
-        calculator.displayValue = `${parseFloat(result.toFixed(7))}`;
-        calculator.firstOperand = result;
-    }
+                const result = Function(`"use strict"; return (${calculation})`)();
 
-    calculator.waitingForSecondOperand = true;
-    calculator.operator = nextOperator;
+                display.value = result;
+                expression = result.toString();
+                resultShown = true;
 
-    updateDisplay();
-}
+            } catch {
+                display.value = "Error";
+                expression = "";
+            }
 
-function calculate(firstOperand, secondOperand, operator) {
-    if (operator === "+") {
-        return firstOperand + secondOperand;
-    } else if (operator === "-") {
-        return firstOperand - secondOperand;
-    } else if (operator === "*") {
-        return firstOperand * secondOperand;
-    } else if (operator === "/") {
-        return firstOperand / secondOperand;
-    } else if (operator === "√") {
-        return Math.sqrt(firstOperand);
-    } else if (operator === "%") {
-        return firstOperand / 100;
-    }
+            return;
+        }
 
-    return secondOperand;
-}
+        // =========================
+        // PLUS / MINUS
+        // =========================
+        if (value === "±") {
+            if (expression === "") return;
 
-function resetCalculator() {
-    calculator.displayValue = "0";
-    calculator.firstOperand = null;
-    calculator.waitingForSecondOperand = false;
-    calculator.operator = null;
-    updateDisplay();
-}
+            if (expression.startsWith("-")) {
+                expression = expression.slice(1);
+            } else {
+                expression = "-" + expression;
+            }
 
-function handleEqual() {
-    const { firstOperand, displayValue, operator } = calculator;
-    const inputValue = parseFloat(displayValue);
+            display.value = expression;
+            return;
+        }
 
-    if (operator && !calculator.waitingForSecondOperand) {
-        const result = calculate(firstOperand, inputValue, operator);
-        calculator.displayValue = `${parseFloat(result.toFixed(7))}`;
-        calculator.firstOperand = null;
-        calculator.operator = null;
-        calculator.waitingForSecondOperand = false;
-        updateDisplay();
-    }
-}
+        // =========================
+        // PERCENT
+        // =========================
+        if (value === "%") {
+            if (expression === "") return;
 
-document.querySelector(".tombol-kalkulator").addEventListener("click", (event) => {
-    const { target } = event;
+            try {
+                const calculation = expression
+                    .replace(/×/g, "*")
+                    .replace(/÷/g, "/")
+                    .replace(/−/g, "-");
 
-    if (!target.matches("button")) {
-        return;
-    }
+                const result = Function(`"use strict"; return (${calculation})`)();
 
-    if (target.classList.contains("operator")) {
-        handleOperator(target.value);
-        return;
-    }
+                expression = (result / 100).toString();
+                display.value = expression;
 
-    if (target.classList.contains("desimal")) {
-        inputDecimal(target.value);
-        return;
-    }
+            } catch {
+                display.value = "Error";
+                expression = "";
+            }
 
-    if (target.classList.contains("hapus-semua")) {
-        resetCalculator();
-        return;
-    }
+            return;
+        }
 
-    if (target.classList.contains("sama-dengan")) {
-        handleEqual();
-        return;
-    }
+        // =========================
+        // ANGKA / OPERATOR
+        // =========================
 
-    inputDigit(target.value);
+        // Kalau sebelumnya sudah menghasilkan result
+        // dan user menekan angka, mulai angka baru
+        if (resultShown && !isNaN(value)) {
+            expression = "";
+            resultShown = false;
+        }
+
+        expression += value;
+
+        // Ubah operator ASCII menjadi simbol
+        display.value = expression
+            .replace(/\*/g, "×")
+            .replace(/\//g, "÷")
+            .replace(/-/g, "−");
+    });
 });
+

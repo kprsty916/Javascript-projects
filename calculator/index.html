@@ -1,43 +1,58 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
+    <title>Classic Calculator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="kalkulator">
+
+        <!-- Display -->
         <div class="layar-kalkulator">
-            <input type="text" class="tampilan-kalkulator" value="0" disabled>
+            <input
+                type="text"
+                class="tampilan-kalkulator"
+                value="0"
+                disabled
+            >
         </div>
 
+        <!-- Buttons -->
         <div class="tombol-kalkulator">
-            <!-- Tombol Operator -->
-            <button class="operator" value="%">%</button>
-            <button class="operator" value="√">√</button>
-            <button class="operator" value="/">&divide;</button>
-            <button class="operator" value="*">&times;</button>
 
-            <!-- Tombol Nomor -->
+            <!-- Baris 1 -->
+            <button class="fungsi" value="AC">AC</button>
+            <button class="fungsi" value="±">±</button>
+            <button class="fungsi" value="%">%</button>
+            <button class="operator" value="/">÷</button>
+
+            <!-- Baris 2 -->
             <button value="7">7</button>
             <button value="8">8</button>
             <button value="9">9</button>
-            <button class="operator" value="-">-</button>
+            <button class="operator" value="*">×</button>
 
+            <!-- Baris 3 -->
             <button value="4">4</button>
             <button value="5">5</button>
             <button value="6">6</button>
-            <button class="operator" value="+">+</button>
+            <button class="operator" value="-">−</button>
 
+            <!-- Baris 4 -->
             <button value="1">1</button>
             <button value="2">2</button>
             <button value="3">3</button>
-            <button class="sama-dengan" value="=">=</button>
-            <!-- Tombol Nol dan 2 lainnya -->
+            <button class="operator" value="+">+</button>
+
+            <!-- Baris 5 -->
             <button class="nol" value="0">0</button>
-            <button class="desimal" value=".">.</button>
-            <button class="hapus-semua" value="AC">AC</button>
+            <button value=".">.</button>
+            <button class="sama-dengan" value="=">=</button>
+
         </div>
     </div>
 
